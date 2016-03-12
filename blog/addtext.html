@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <script src="jquery-1.11.3.js"></script>
+    <script>
+        $(function(){
+            $.ajax({
+                url:"/Add",
+                type:"get",
+                success:function(req){
+
+                    var page0="<div class='wrap'>"+
+                            "<div id='title'>"+
+                            "作者："+
+                            "<input type='text' name='name' value='req.author'/>"+
+                            "<br /><br />"+
+                            "标题:"+
+                            "</div>"+
+                            "<input type='text' name='title' />"+
+                            "    <textarea name=\"text\" id=\"+req.id+\"></textarea>"+
+                            "<input type='submit' value='提交' id='bt1'/>"+
+                            "</div>";
+                    $("body").append(page0);
+
+                }
+            });
+            $("input[type='submit']").click(function(){
+                $.ajax({
+                    url:"/AddOneArticle",
+                    type:"post",
+                    data:{
+                        'id':$id,
+                        'text':$("textarea").val()
+                    },
+                    success:function(){
+                        location.href="homepage.html"
+                    }
+                })
+            })
+        })
+    </script>
+    <title></title>
+</head>
+<body>
+
+</body>
+</html>

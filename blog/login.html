@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <script src="jquery-1.11.3.js"></script>
+    <script>
+        $(function(){
+            var name=$("input[name='name']");
+            var psd=$("input[name='psd']");
+
+            $("#bt1").click(function(){
+                stopDefault(event);
+                $.ajax({
+                    url:"/login",
+                    type:"post",
+                    data:{
+                        'name':name.val(),
+                        'psd':psd.val()
+                    },
+                    success:function(res){
+                        if(res.status==0){
+                            location.href="homepage.html";
+                        }
+                        else{
+                            alert("请重新输入");
+                        }
+                    }
+                });
+                //阻止浏览器默认行为
+                function stopDefault(e) {
+                    if(e && e.preventDefault) {
+                        e.preventDefault();
+                    } else {
+                        window.event.returnValue = false;
+                    }
+                    return false;
+            })
+        })
+    </script>
+    <title></title>
+</head>
+<body>
+<form action="">
+    用户名：
+    <input type="text" name="name" />
+    <br /><br />
+    密码:
+    <input type="text" name="psd" />
+    <br /><br />
+
+    <input type="submit" value="提交" id="bt1"/>
+</form>
+</body>
+</html>

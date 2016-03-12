@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <script src="jquery-1.11.3.js"></script>
+    <style>
+        textarea{
+            width: 400px;
+            height: 200px;
+            float: left;
+        }
+        .btn{
+            clear: both;
+        }
+        .wrap{
+            padding: 10px;
+        }
+
+    </style>
+    <script>
+        $(function(){
+            var page = "";
+            $.ajax({
+                url:"/load",
+                type:"get",
+                success:function(req){//json变对象,遍历对象里的body
+
+
+                    req.each(function(index,item){
+                        //使用each遍历后台发给我的文档
+                        page+="<div class='wrap'>"+
+                                "<div id='title'>"+
+                                "作者："+
+                                "<input type='text' name='name' value='req.author'/>"+
+                                "<br /><br />"+
+                                "标题:"+
+                                "</div>"+
+                                "<input type='text' name='title'  value='req.title'/>"+
+                                "    <textarea name='text' id='+item.id+'>this.text</textarea>"+
+                                "    <div class='btn'>"+
+                                "        <button class='modify'>修改</button>"+
+                                "        <button class='del'>删除</button>"+
+                                "    </div>"+
+                                "</div>";
+
+                    });
+                    $("body").append(page);
+
+                }
+            });
+
+
+            $(".modify").click(function(){
+                var id=$(this).parent().css("id");
+
+                location.href="text.html?id="+id;
+            });
+
+
+            $(".del").click(function(){
+                var del=$('this').parent();
+                $.ajax({
+                    url:"/DeleteArticle",
+                    type:"post",
+                    data: {'id':del.css("id")},
+                    success:function(){
+
+                          del.remove();
+
+                    }
+                })
+            });
+            $("#add").click(function(){
+
+               location.href="addtext.html";
+            });
+        })
+    </script>
+    <title></title>
+</head>
+<body>
+<button id="add">添加</button>
+</body>
+</html>
